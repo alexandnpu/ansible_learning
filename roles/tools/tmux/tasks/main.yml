@@ -1,0 +1,7 @@
+---
+- include: "{{ tmux_loop_item }}"
+  with_items:
+      - dependency.yml
+      - tmux.yml
+  loop_control:
+      loop_var: tmux_loop_item

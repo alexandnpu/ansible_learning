@@ -1,0 +1,13 @@
+---
+- name: prepare environment
+  yum:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - automake.noarch
+      - libevent.x86_64
+      - libevent-devel.x86_64
+      - ncurses.x86_64
+      - ncurses-devel.x86_64
+
+

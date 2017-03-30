@@ -1,8 +1,19 @@
+[all:children]
+app_servers
+alex_dev
+
+[alex_dev:vars]
+ansible_user = chao.zheng
+ansible_ssh_private_key_file = ~/.ssh/id_rsa
+
+[app_servers:vars]
+ansible_user = root
+
 [app_servers]
-192.168.0.16
-192.168.0.17
+192.168.80.16
+192.168.80.17
 
 [alex_dev]
-192.168.0.124
-192.168.0.125
+192.168.80.124
+192.168.80.125
 

@@ -1,0 +1,21 @@
+---
+- name: clean tmux
+  become: True
+  file:
+      path: "{{ tmux_target_folder }}"
+      state: absent
+- name: clone tmux
+  git:
+    repo: https://github.com/tmux/tmux.git
+    clone: yes
+    dest: "{{ tmux_target_folder }}"
+    version: "{{ version }}" 
+- name: compile and install tmux
+  command: chdir={{ tmux_target_folder }} {{ item }}
+  become: True
+  with_items:
+      - ./autogen.sh
+      - ./configure
+      - make
+      - make install
+
