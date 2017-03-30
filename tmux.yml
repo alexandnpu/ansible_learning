@@ -1,0 +1,38 @@
+---
+- name: prepare environment
+  hosts: app_servers,alex_dev
+  tasks:
+      - name: install some packages
+        yum:
+            name: "{{ item }}"
+            state: present
+        with_items:
+            - automake.noarch
+            - libevent.x86_64
+            - libevent-devel.x86_64
+            - ncurses.x86_64
+            - ncurses-devel.x86_64
+
+- name: install tmux
+  vars:
+      tmux_target_folder: /data/alex/git/tmux
+  hosts: app_servers,alex_dev
+  tasks:
+      - name: clean tmux
+        file:
+            path: "{{ tmux_target_folder }}"
+            state: absent
+      - name: clone tmux
+        git:
+          repo: https://github.com/tmux/tmux.git
+          clone: yes
+          dest: "{{ tmux_target_folder }}"
+          version: 52869ed182482c26163799a7215139f4d81b6fca
+      - name: compile and install tmux
+        command: chdir={{ tmux_target_folder }} {{ item }}
+        with_items:
+            - ./autogen.sh
+            - ./configure
+            - make
+            - make install
+
